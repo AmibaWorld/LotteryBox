@@ -1,6 +1,6 @@
 <?php
 /**
- * Created Greatfar
+ * Created by Greatfar
  * Date: 2017/5/21
  * Time: 11:24
  */
@@ -62,8 +62,9 @@ class LotteryModel{
         $sth->execute() or die("数据库错误: " . $sth->errorInfo()[2]);
         $arr_total_award = $sth->fetch();                          //匹配成数组
         $totalNumber = $arr_total_award[0];                        //获取数组第一个元素，即为记录总数
-        if($totalNumber == 300){                                   //抽奖人数超过300人后停止抽奖
-            die("you are forbidden");
+        if($totalNumber > 300){                                   //抽奖人数超过300人后停止抽奖
+            $totalNumber = 300;
+//            die("you are forbidden");
         }
         $award = $arr_award[$totalNumber];
         //更新lottery_award表
