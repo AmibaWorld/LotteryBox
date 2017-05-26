@@ -59,10 +59,10 @@ class LotteryController{
      */
     function awardListAction() {
         //检查是否已经登录
-        require './Models/WechatModel.class.php';
-        $wechat = new WechatModel();
-        $redirect_url = "http%3A%2F%2Fwximg.gzxd120.com%2FLottery%2Findex.php%3Fc%3DLottery%26a%3DcollectUserInfo";
-        $wechat->loginCheck($redirect_url, true, "snsapi_userinfo", "userinfo");
+//        require './Models/WechatModel.class.php';
+//        $wechat = new WechatModel();
+//        $redirect_url = "http%3A%2F%2Fwximg.gzxd120.com%2FLottery%2Findex.php%3Fc%3DLottery%26a%3DcollectUserInfo";
+//        $wechat->loginCheck($redirect_url, true, "snsapi_userinfo", "userinfo");
         //获取获奖列表
         require './Models/LotteryModel.class.php';
         $lottery = new LotteryModel();

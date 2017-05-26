@@ -24,10 +24,9 @@
         };
 
         //全局变量
-        var inviteCode = "";                                    //邀请码
-        var aflag = <?php echo $arr_award['ishidden'] ?>;       //抽奖标记
-        var adate = "<?php echo $arr_award['adate'] ?>";        //抽奖日期
-        
+        var aflag = <?php echo $arr_award['ishidden'] ?>; //抽奖标记
+        var adate = "<?php echo $arr_award['adate'] ?>"; //抽奖日期
+
         $(document).ready(function() {
             //动态添加大转盘的奖品与奖品区域背景颜色
             turnplate.restaraunts = ["iPhone 7 Plus", "三星note9", "小米7", "iPhone 7 Plus", "三星note9", "小米7", "iPhone 7 Plus", "三星note9", "小米7", "三星note9"];
@@ -47,6 +46,14 @@
 
             //领奖令牌按钮点击事件
             $("#invcode").click(function() {
+                if (aflag == false) { //如果还没抽奖，弹出还没抽奖提示框
+                    $("#tips-title").text("抽奖提示");
+                    $("#tips-body").text("您还没有抽奖，请点击开始抽奖按钮！");
+                    $('#div-tips').modal({
+                        backdrop: false
+                    });
+                    return;
+                }
                 window.location.href = "index.php?c=Lottery&a=getAwardToken";
             });
 
@@ -79,12 +86,16 @@
                         $('#div-tips-award').modal({
                             backdrop: false
                         });
-                        //turnplate.bRotate = !turnplate.bRotate;   //使“开始抽奖”可以点击
+                        //使“开始抽奖”可以点击
+                        //turnplate.bRotate = !turnplate.bRotate; 
                         //---------------ajax提交抽奖请求-------------------
                         var url_get = "index.php?c=Lottery&a=markAwardStatus";
                         $.get(url_get, function(data, status) {
                             //不执行任何动作
                         });
+                        //把抽奖标记为已抽奖
+                        aflag = true;
+                        adate = getNowFormatDate();
                     }
                 });
             };
@@ -166,6 +177,25 @@
         window.onload = function() {
             drawRouletteWheel();
         };
+        
+        //获取当前系统时间
+        function getNowFormatDate() {
+            var date = new Date();
+            var seperator1 = "-";
+            var seperator2 = ":";
+            var month = date.getMonth() + 1;
+            var strDate = date.getDate();
+            if (month >= 1 && month <= 9) {
+                month = "0" + month;
+            }
+            if (strDate >= 0 && strDate <= 9) {
+                strDate = "0" + strDate;
+            }
+            var currentdate = date.getFullYear() + seperator1 + month + seperator1 + strDate +
+                " " + date.getHours() + seperator2 + date.getMinutes() +
+                seperator2 + date.getSeconds();
+            return currentdate;
+        }
 
         //在canvas中画出旋转盘
         function drawRouletteWheel() {
@@ -246,7 +276,7 @@
                 }
             }
         }
-        
+
     </script>
 </head>
 
