@@ -1,5 +1,20 @@
+ <?php
+    $awardtype = "";
+    switch ($arr_sqldata[award]){
+        case 0:
+          $awardtype = "iPhone 7 plus";
+          break;
+        case 1:
+          $awardtype = "三星note9";
+          break;
+        case 2:
+          $awardtype = "小米7";
+          break;
+    }
+?>
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -13,56 +28,37 @@
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 </head>
+
 <body>
     <div id="wrap">
         <div class="container">
             <div class="row">
                 <img src="./Public/images/token-header.png" class="img-responsive">
             </div>
+            <div class="awardlist">
+                <div class="row">
+                    <div class="col-xs-12">
+                        奖品：<span class="awardtype"><?php echo $awardtype; ?></span>
+                    </div>
+                </div>
+            </div>
             <div class="upNav">
                 <div class="row">
                     <div class="col-xs-6 col-xs-offset-3">
-                        <img class="img-responsive img-circle" src='<?php echo $arr_sqldata[headimgurl]; ?>'/>
+                        <img class="img-responsive img-circle" src='<?php echo $arr_sqldata[headimgurl]; ?>' />
                     </div>
                 </div>
             </div>
-            <?php
-                $sex = "";
-                $awardtype = "";
-                switch ($arr_sqldata[sex]){
-                    case 1:
-                      $sex = "男";
-                      break;
-                    case 2:
-                      $sex = "女";
-                      break;
-                }
-                switch ($arr_sqldata[award]){
-                    case 0:
-                      $awardtype = "iPhone 7 plus";
-                      break;
-                    case 1:
-                      $awardtype = "三星note9";
-                      break;
-                    case 2:
-                      $awardtype = "小米7";
-                      break;
-                }
-            ?>
-            <div class="nickname">
-                <div class="row">
-                    <div class="col-xs-12 namecolor">
-                        <?php echo $arr_sqldata[nickname]; ?>
+                <div class="nickname">
+                    <div class="row">
+                        <div class="col-xs-12 namecolor">
+                            <?php echo $arr_sqldata[nickname]; ?>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="awardlist">
-                <div class="col-xs-12">
-                    奖品：<span class="awardtype"><?php echo $awardtype; ?></span>
-                </div>
-            </div>
-            </div>
         </div>
     </div>
+    </div>
 </body>
+
 </html>
