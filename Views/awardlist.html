@@ -17,7 +17,7 @@
 <body>
     <div class="container">
         <div class="row">
-<!--            <h2 class="sub-header">获奖名单</h2>-->
+            <!--            <h2 class="sub-header">获奖名单</h2>-->
             <div class="table-responsive">
                 <table class="table table-striped">
                     <thead>
@@ -63,8 +63,18 @@
                     </tbody>
                 </table>
             </div>
+            <div id="listend"></div>
         </div>
     </div>
 </body>
+<script>
+    function refreshlist() {
+        window.location.href = "index.php?c=Lottery&a=awardList#listend";
+    }
+    //重复执行某个方法  
+    var t1 = window.setInterval('refreshlist()', 60000);
+    //去掉定时器的方法  
+    //window.clearInterval(t1);
+</script>
 
 </html>
