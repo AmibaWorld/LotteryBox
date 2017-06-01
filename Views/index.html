@@ -26,10 +26,11 @@
         //全局变量
         var aflag = <?php echo $arr_award['ishidden'] ?>; //抽奖标记
         var adate = "<?php echo $arr_award['adate'] ?>"; //抽奖日期
+        var atype = <?php echo ($arr_award['award'] + 1) ?>;    //获得的奖品
 
         $(document).ready(function() {
             //动态添加大转盘的奖品与奖品区域背景颜色
-            turnplate.restaraunts = ["iPhone 7 Plus", "三星note9", "小米7", "iPhone 7 Plus", "三星note9", "小米7", "iPhone 7 Plus", "三星note9", "小米7", "三星note9"];
+            turnplate.restaraunts = ["一等奖", "二等奖", "三等奖", "不中奖", "二等奖", "三等奖", "不中奖", "二等奖", "三等奖", "不中奖"];
             turnplate.colors = ["#FFF4D6", "#FFFFFF", "#FFF4D6", "#FFFFFF", "#FFF4D6", "#FFFFFF", "#FFF4D6", "#FFFFFF", "#FFF4D6", "#FFFFFF"];
 
             //旋转超时
@@ -81,8 +82,15 @@
                     animateTo: angles + 1800,
                     duration: 8000,
                     callback: function() {
-                        $("#tips-title-award").text("抽奖结果");
-                        $("#tips-body-award").text("恭喜你获得『" + txt + "』");
+                        //定制提示框内容
+                        if(atype == "4"){   //不中奖时
+                            $("#tips-title-award").text("抽奖结果");
+                            $("#tips-body-award").text("真抱歉，你没有抽到任何奖品！");
+                        }else{
+                            $("#tips-title-award").text("抽奖结果");
+                            $("#tips-body-award").text("恭喜你获得『" + txt + "』");
+                        }
+                        //弹出提示框
                         $('#div-tips-award').modal({
                             backdrop: false
                         });
@@ -115,7 +123,7 @@
                 //获取随机数（前端随机抽取奖品）
                 //   var item = rnd(1, turnplate.restaraunts.length);
                 //使用服务器随机指定的奖品
-                item = <?php echo ($arr_award['award'] + 1) ?>;
+                item = atype;
                 //奖品数量等于10,指针落在对应奖品区域的中心角度[252, 216, 180, 144, 108, 72, 36, 360, 324, 288]
                 rotateFn(item, turnplate.restaraunts[item - 1]);
                 /* switch (item) {

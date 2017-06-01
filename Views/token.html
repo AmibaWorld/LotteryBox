@@ -2,13 +2,16 @@
     $awardtype = "";
     switch ($arr_sqldata[award]){
         case 0:
-          $awardtype = "iPhone 7 plus";
+          $awardtype = "一等奖";
           break;
         case 1:
-          $awardtype = "三星note9";
+          $awardtype = "二等奖";
           break;
         case 2:
-          $awardtype = "小米7";
+          $awardtype = "三等奖";
+          break;
+        case 3:
+          $awardtype = "不中奖";
           break;
     }
 ?>

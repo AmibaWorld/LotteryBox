@@ -41,17 +41,17 @@ class LotteryModel{
      * @param $openid 微信openid
      */
     function distributeAward($openid, $pdo) {
-        //奖品数组，0-->iphone 7，1-->三星，2-->小米
-        $arr_award = array(2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,0,2,2,
-            2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-            2,2,2,2,2,2,2,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-            2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-            2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,
-            2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-            2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-            2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-            2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,
-            2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,2
+        //奖品数组，0-->iphone 7，1-->三星，2-->小米，
+        $arr_award = array(3,1,3,2,3,0,2,3,3,1,3,3,3,2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+            3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+            3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+            3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+            3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+            3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+            3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+            3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+            3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
+            3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,
         );
         // 并发访问，php文件锁,加锁
         $fp = fopen('./Public/file/a.lock', 'r'); // php的文件锁和表没关系，随便一个文件即可
@@ -131,7 +131,7 @@ class LotteryModel{
         $db = new DatabaseModel();
         $pdo = $db->connectDatabase();
         //内联查询语句，查询出已抽奖的人，aflag = true
-        $sql_award_uniquery = "SELECT lottery_userinfo.headimgurl, lottery_userinfo.nickname, lottery_userinfo.sex, lottery_award.award, lottery_award.adate FROM lottery_award JOIN lottery_userinfo ON lottery_userinfo.openid = lottery_award.openid AND lottery_award.ishidden = 'true'";
+        $sql_award_uniquery = "SELECT lottery_userinfo.headimgurl, lottery_userinfo.nickname, lottery_userinfo.sex, lottery_award.award, lottery_award.adate FROM lottery_award JOIN lottery_userinfo ON lottery_userinfo.openid = lottery_award.openid AND lottery_award.ishidden = 'true' AND lottery_award.award <> '3'";
         $sth = $pdo->prepare($sql_award_uniquery);
         $sth->execute() or die("数据库错误: " . $sth->errorInfo()[2]);
         return $sth->fetchAll();    //返回查询结果集

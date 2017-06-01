@@ -21,7 +21,7 @@ class LotteryController{
         $wechat = new WechatModel();
         $redirect_url = "http%3A%2F%2Fwximg.gzxd120.com%2FLottery%2Findex.php%3Fc%3DLottery%26a%3DcollectUserInfo";
         $wechat->loginCheck($redirect_url, true, "snsapi_userinfo", "userinfo");
-        //检查邀请状态
+        //检查抽奖状态
         require './Models/LotteryModel.class.php';
         $lottery = new LotteryModel();
         $invflag = $lottery->checkAward();
