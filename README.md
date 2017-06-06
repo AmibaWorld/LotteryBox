@@ -21,4 +21,4 @@ HTML抽奖转盘
 ![](./src/lottery_userinfo.png)
 
 # DEMO #
-[http://wximg.gzxdzlyy.com/Lottery/](http://wximg.gzxdzlyy.com/Lottery/ "http://wximg.gzxdzlyy.com/Lottery/")
+[http://wximg.gzxd120.com/Lottery/](http://wximg.gzxd120.com/Lottery/ "http://wximg.gzxd120.com/Lottery/")
