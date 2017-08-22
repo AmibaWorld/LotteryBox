@@ -5,7 +5,7 @@ class WechatModel {
      * WechatModel constructor.
      */
     function __construct() {
-        
+
     }
 
     /**
@@ -14,7 +14,7 @@ class WechatModel {
      * @param $scope            微信授权登录方式
      * @param $state            授权登录类型
      */
-    function jumpWechatLogin($redirect_url, $scope,$state) {
+    function jumpWechatLogin($redirect_url, $scope, $state) {
         $open_url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx011cddc56212c6ed&redirect_uri=".$redirect_url."&response_type=code&scope=".$scope."&state=".$state."#wechat_redirect";
         header("Location: ".$open_url);
     }
@@ -73,25 +73,29 @@ class WechatModel {
     /**
      * 存储用户信息到数据库、cookie
      * @param $user_data    用户数据
-     * @param $table_userinfo   存储用户信息的数据库的表
+     * @param $table_header   存储用户信息的数据库的表前缀
      */
-    function storeUserInfo($user_data, $table_userinfo) {
+    function storeUserInfo($user_data, $table_header) {
         require_once './Models/DatabaseModel.class.php';
         $db = new DatabaseModel();
         $pdo = $db->connectDatabase();
         //获取授权类型
-        $state = !empty($_GET['state']) ? $_GET['state'] : exit();            //验证GET变量
+        $state = !empty($_GET['state']) ? $_GET['state'] : exit();
         if($state == "base"){
-            setcookie("openid", $user_data->{'openid'}, time()+36000);        //返回的是openid,直接写入cookie中
+            setcookie("openid", $user_data->{'openid'}, time()+36000);
+            //把用户数据存进数据库中
+            $sql_insert="INSERT ".$table_header."userbase ( openid, logintime ) values ( ?, ? ) ON DUPLICATE KEY UPDATE logintime = ?";
+            $sth = $pdo->prepare($sql_insert);
+            $sth->execute(array($user_data->{'openid'}, time(), time())) or die("数据库错误: " . $sth->errorInfo()[2]);
         }else if($state == "userinfo"){
             $openid = $user_data->{'openid'};
-            setcookie("openid", $openid, time()+36000);         //保存openid
+            setcookie("openid", $openid, time()+36000);
             //把用户数据存进数据库中
-            $sql_insert = "INSERT ".$table_userinfo." (openid, nickname, sex, province, city, country, headimgurl, privilege) values (?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE headimgurl = ?";
+            $sql_insert = "INSERT ".$table_header."userinfo (openid, nickname, sex, province, city, country, headimgurl, privilege) values (?,?,?,?,?,?,?,?) ON DUPLICATE KEY UPDATE headimgurl = ?";
             $sth = $pdo->prepare($sql_insert);
             $sth->execute(array($user_data->{'openid'}, $user_data->{'nickname'}, $user_data->{'sex'}, $user_data->{'province'}, $user_data->{'city'}, $user_data->{'country'}, $user_data->{'headimgurl'}, json_encode($user_data->{'privilege'}), $user_data->{'headimgurl'})) or die("数据库错误: " . $sth->errorInfo()[2]);
             //在cookie中设置曾经以snsapi_base方式登录过的标记
-             setcookie("userinfo", "true", time()+36000);
+            setcookie("userinfo", "true", time()+36000);
         }
         //跳转到登录前的url
         header("Location: ".$_COOKIE["last_url"] );
@@ -103,9 +107,9 @@ class WechatModel {
      *
      * @param $table_userinfo   存储用户信息的数据库表的名字
      */
-    function wxOAuthLogin($table_userinfo) {
-        $user_data = $this->getUserInfo();      //获取用户信息
-        $this->storeUserInfo($user_data, $table_userinfo);       //存储用户信息
+    function wxOAuthLogin($table_header) {
+        $user_data = $this->getUserInfo();
+        $this->storeUserInfo($user_data, $table_header);
     }
 
 
@@ -116,11 +120,19 @@ class WechatModel {
      * 因为业务要求是投稿要获取微信昵称，点赞只需要获取openid.
      * @param $redirect_url     用户同意登录，收集用户信息的URL，必须经过urldecode()
      * @param bool $isUserInfo  是否强制以snsapi_userinfo的方式登录，true为强制要求重新登录
-     * @param string $scope     微信授权类型
-     * @param string $state     登录类型标识
      * @return mixed            openid
      */
-    function loginCheck($redirect_url, $isUserInfo = false, $scope = "snsapi_base", $state = "base") {
+    function loginCheck($redirect_url, $isUserInfo = false) {
+        //根据登录类型，更改微信授权登录GET请求参数
+        $scope = "";
+        $state = "";
+        if($isUserInfo){
+            $scope = "snsapi_userinfo";
+            $state = "userinfo";
+        }else{
+            $scope = "snsapi_base";
+            $state = "base";
+        }
         //进行是否即使cookie中有openid也登录的判断
         $flag = false;
         if($isUserInfo){
@@ -130,10 +142,11 @@ class WechatModel {
         }
         //判断cookie中是否有openid
         if (!isset($_COOKIE["openid"]) || $flag){
-            $pageUrl = $this->getPageURL();       //获取当前请求url
-            //把当前请求url存进session中
+            $pageUrl = $this->getPageURL();
+            //把当前请求url存进cookie中
             setcookie("last_url", $pageUrl, time()+600);
-            $this->jumpWechatLogin($redirect_url,$scope,$state);          
+            $this->jumpWechatLogin($redirect_url,$scope,$state);
+            die();   //没有登录终止执行
         }else if($flag){
             return $_COOKIE["openid"];   //返回openid
         }

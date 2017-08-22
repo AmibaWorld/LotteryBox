@@ -5,9 +5,9 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>抽奖大转盘</title>
+    <title>抽奖转盘</title>
     <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="./Public/css/index.css" rel="stylesheet">
+    <link href="./Public/css/award.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="./Public/js/awardRotate.js"></script>
@@ -85,10 +85,10 @@
                         //定制提示框内容
                         if(atype == "4"){   //不中奖时
                             $("#tips-title-award").text("抽奖结果");
-                            $("#tips-body-award").text("真抱歉，你没有抽到任何奖品！");
+                            $("#tips-body-award").html("<span style='font-size:16px;'>真抱歉，你没有抽到任何奖品！</span>");
                         }else{
                             $("#tips-title-award").text("抽奖结果");
-                            $("#tips-body-award").text("恭喜你获得『" + txt + "』");
+                            $("#tips-body-award").html("<span style='font-size:16px;'>恭喜你获得<span style='color:red;font-weight:bold;'>" + txt + "</span></span>");
                         }
                         //弹出提示框
                         $('#div-tips-award').modal({
@@ -244,14 +244,14 @@
                     }
 
                     //添加对应图标
-                    if (text.indexOf("iPhone 7 Plus") > 0) {
+                    if (text.indexOf("一等奖") > 0) {
                         var img = document.getElementById("shan-img");
                         img.onload = function() {
                             ctx.drawImage(img, -15, 10);
                         };
                         ctx.drawImage(img, -15, 10);
                     }
-                    if (text.indexOf("iPhone 7 Plus") >= 0) {
+                    if (text.indexOf("不中奖") >= 0) {
                         var img = document.getElementById("sorry-img");
                         img.onload = function() {
                             ctx.drawImage(img, -15, 10);
@@ -273,13 +273,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-10 col-xs-offset-1">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>圣丹福之夜 - 抽奖大转盘</th>
-                            </tr>
-                        </thead>
-                    </table>
+                    <div class="a-title">有奖竞答-抽奖转盘</div>
                 </div>
             </div>
             <div class="award">
