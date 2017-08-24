@@ -25,7 +25,7 @@
 
         //全局变量
         var aflag = <?php echo $arr_award['ishidden'] ?>; //抽奖标记
-        var adate = "<?php echo $arr_award['adate'] ?>"; //抽奖日期
+        var adate = "<?php echo date('Y-m-d H:i', $arr_award['adate']) ?>"; //抽奖日期
         var atype = <?php echo ($arr_award['award'] + 1) ?>;    //获得的奖品
 
         $(document).ready(function() {
@@ -47,7 +47,7 @@
 
             //领奖令牌按钮点击事件
             $("#invcode").click(function() {
-                if (aflag == false) { //如果还没抽奖，弹出还没抽奖提示框
+                if (aflag) { //如果还没抽奖，弹出还没抽奖提示框
                     $("#tips-title").text("抽奖提示");
                     $("#tips-body").text("您还没有抽奖，请点击开始抽奖按钮！");
                     $('#div-tips').modal({
@@ -102,7 +102,7 @@
                             //不执行任何动作
                         });
                         //把抽奖标记为已抽奖
-                        aflag = true;
+                        aflag = false;
                     }
                 });
             };
@@ -111,7 +111,7 @@
             $('.pointer').click(function() {
                 if (turnplate.bRotate) return;
                 //如果已经抽奖，弹出提示框后返回，不再转动
-                if (aflag) {
+                if (!aflag) {
                     $("#tips-title-award").text("抽奖提示");
                     $("#tips-body-award").text("您已于" + adate + "进行了抽奖，每个人只能抽一次奖哦！您可以打开领奖令牌去领奖啦！");
                     $('#div-tips-award').modal({
@@ -161,9 +161,8 @@
                 console.log(item);
             });
 
-
             //弹出已经抽奖提示框
-            if (aflag) {
+            if (!aflag) {
                 $("#tips-title-award").text("抽奖提示");
                 $("#tips-body-award").text("您已于" + adate + "进行了抽奖，每个人只能抽一次奖哦！您可以打开领奖令牌去领奖啦！");
                 $('#div-tips-award').modal({
@@ -273,7 +272,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-10 col-xs-offset-1">
-                    <div class="a-title">有奖竞答-抽奖转盘</div>
+                    <div class="a-title">模拟抽奖箱逻辑-抽奖转盘</div>
                 </div>
             </div>
             <div class="award">

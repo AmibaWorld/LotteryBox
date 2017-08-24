@@ -23,7 +23,7 @@
                         <tr>
                             <th>头像</th>
                             <th>姓名</th>
-                            <th>部门</th>
+                            <th>时间</th>
                             <th>奖品</th>
                         </tr>
                     </thead>
@@ -47,8 +47,8 @@
                                 }
                                 echo "<tr>";
                                 echo "<td><img width='28px' src='".$arr_awardinfo[headimgurl]."'/></td>";
-                                echo "<td>$arr_awardinfo[uname]</td>";
-                                echo "<td>$arr_awardinfo[dept]</td>";
+                                echo "<td>$arr_awardinfo[nickname]</td>";
+                                echo "<td>".date('Y-m-d H:i', $arr_awardinfo['adate'])."</td>";
                                 echo "<td>$awardtype</td>";
                                 echo "</tr>";
                             }
