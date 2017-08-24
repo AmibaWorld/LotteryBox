@@ -36,7 +36,7 @@ class LotteryModel{
 
     /**
      * 从奖池中抽取奖品
-     * @param $openid 微信openid
+     * @return int 返回奖品代号
      */
     private function getAward() {
         $award_value = 3;  //奖品，3代表不中奖
