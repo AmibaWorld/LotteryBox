@@ -16,7 +16,7 @@ HTML抽奖转盘，模拟现实生活的抽奖箱逻辑
 
 
 # 备注 #
-./creat\_award\_pool.php   用于生成奖池，用于初始化奖池文件
+./create\_award\_pool.php   用于生成奖池，用于初始化奖池文件
 
 
 
