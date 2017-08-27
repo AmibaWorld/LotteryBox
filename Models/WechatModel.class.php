@@ -76,7 +76,6 @@ class WechatModel {
      * @param $table_header   存储用户信息的数据库的表前缀
      */
     function storeUserInfo($user_data, $table_header) {
-        require_once './Models/DatabaseModel.class.php';
         $db = new DatabaseModel();
         $pdo = $db->connectDatabase();
         //获取授权类型

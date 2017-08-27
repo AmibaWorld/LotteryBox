@@ -18,20 +18,18 @@ class LotteryController{
     function indexAction() {
         header("Content-type:text/html;charset=utf-8");
         //检查是否已经登录
-        require_once './Models/WechatModel.class.php';
         $wechat = new WechatModel();
         $redirect_url = "http%3A%2F%2Fwximg.gzxd120.com%2Flottery%2Findex.php%3Fc%3DWechat%26a%3DcollectUserInfo";
         $wechat->loginCheck($redirect_url, true);
         //获取openid
         $openid = !empty($_COOKIE['openid']) ? $_COOKIE['openid'] : exit();
         //检查是否已经分配奖项
-        require_once './Models/LotteryModel.class.php';
         $lottery = new LotteryModel();
         $invflag = $lottery->checkAward($openid);
         //获取抽奖信息
         $arr_award = $lottery->getAwardStatus($openid);
         //载入首页视图
-        require_once './Views/award.html';
+        require './Views/award.html';
     }
 
 
@@ -41,7 +39,6 @@ class LotteryController{
     function markAwardStatusAction() {
         //获取openid
         $openid = !empty($_COOKIE[openid]) ? $_COOKIE[openid] : exit();
-        require_once './Models/LotteryModel.class.php';
         $lottery = new LotteryModel();
         $lottery->markAwardStatus($openid);
     }
@@ -52,14 +49,12 @@ class LotteryController{
      */
     function awardListAction() {
         //检查是否已经登录
-        require_once './Models/WechatModel.class.php';
         $wechat = new WechatModel();
         $redirect_url = "http%3A%2F%2Fwximg.gzxd120.com%2Flottery%2Findex.php%3Fc%3DWechat%26a%3DcollectUserInfo";
         $wechat->loginCheck($redirect_url, true);
         //获取页码
         $page = !empty($_GET['page']) ? $_GET['page'] : 1;
         //实例化模型层
-        require_once './Models/LotteryModel.class.php';
         $lottery = new LotteryModel();
         //分页数据计算
         $perNumber = 20;    //每页显示的记录数
@@ -77,7 +72,7 @@ class LotteryController{
         //获取获奖列表
         $arr_sqldata = $lottery->getAwardList($startCount, $perNumber);
         //载入获奖列表视图
-        require_once './Views/awardlist.html';
+        require './Views/awardlist.html';
     }
 
 
@@ -86,17 +81,15 @@ class LotteryController{
      */
     function getAwardTokenAction() {
         //检查是否已经登录
-        require_once './Models/WechatModel.class.php';
         $wechat = new WechatModel();
         $redirect_url = "http%3A%2F%2Fwximg.gzxd120.com%2Flottery%2Findex.php%3Fc%3DWechat%26a%3DcollectUserInfo";
         $wechat->loginCheck($redirect_url, true);
         //获取openid
         $openid = !empty($_COOKIE[openid]) ? $_COOKIE[openid] : exit();
         //获取个人获奖信息
-        require_once './Models/LotteryModel.class.php';
         $lottery = new LotteryModel();
         $arr_sqldata = $lottery->awardToken($openid);
-        require_once './Views/token.html';
+        require './Views/token.html';
     }
 
 

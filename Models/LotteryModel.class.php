@@ -19,7 +19,6 @@ class LotteryModel{
      * @return mixed 邀请标记
      */
     public function checkAward($openid) {
-        require_once './Models/DatabaseModel.class.php';
         $db = new DatabaseModel();
         $pdo = $db->connectDatabase();
         //查询数据库
@@ -93,7 +92,6 @@ class LotteryModel{
      */
     public function getAwardStatus($openid) {
         //连接数据库
-        require_once './Models/DatabaseModel.class.php';
         $db = new DatabaseModel();
         $pdo = $db->connectDatabase();
         //查询数据库
@@ -109,7 +107,6 @@ class LotteryModel{
      */
     public function markAwardStatus($openid) {
         //连接数据库
-        require_once './Models/DatabaseModel.class.php';
         $db = new DatabaseModel();
         $pdo = $db->connectDatabase();
         //更新award表
@@ -127,7 +124,6 @@ class LotteryModel{
      */
     public function getTotalRecord(){
         //连接数据库
-        require_once './Models/DatabaseModel.class.php';
         $db = new DatabaseModel();
         $pdo = $db->connectDatabase();
         //获取记录总数
@@ -142,7 +138,6 @@ class LotteryModel{
      */
     public function getAwardList($startCount, $perNumber) {
         //连接数据库
-        require_once './Models/DatabaseModel.class.php';
         $db = new DatabaseModel();
         $pdo = $db->connectDatabase();
         //内联查询语句，查询出已抽奖的人，aflag = true
@@ -159,7 +154,6 @@ class LotteryModel{
      */
     public function awardToken($openid) {
         //连接数据库
-        require_once './Models/DatabaseModel.class.php';
         $db = new DatabaseModel();
         $pdo = $db->connectDatabase();
         //联合查询-内联

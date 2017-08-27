@@ -19,7 +19,6 @@ class WechatController{
     function collectUserInfoAction() {
         header("Content-type:text/html;charset=utf-8");
         //调用微信模块-授权登录方法
-        require_once './Models/WechatModel.class.php';
         $wechat = new WechatModel();
         $user_data = $wechat->wxOAuthLogin("lottery_");
     }
