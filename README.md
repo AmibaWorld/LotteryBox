@@ -47,4 +47,3 @@ HTML抽奖转盘，模拟现实生活的抽奖箱逻辑
 
 
 # DEMO #
-[http://wximg.gzxd120.com/Lottery/](http://wximg.gzxd120.com/lottery/ "http://wximg.gzxd120.com/lottery/")
